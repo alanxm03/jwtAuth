@@ -17,6 +17,7 @@ routes.post('/',(req,res)=>{
     saveUser.save(err=>{
         if(err){
             res.status(500).json({"message":err})
+            console.log(err)
         }
         else{
             res.status(200).json({"message":"Saved to Db"})
@@ -30,6 +31,7 @@ routes.get("/view",(req,res)=>{
         if(data){
         var token = jwt.sign({data: data }, 'openHello');
         res.status(200).json({ status: true, message: token });
+        console.log(token);
         }
         else{
             res.status(204).json({ status: false, message: "username or password incorrect" })
@@ -57,13 +59,13 @@ routes.get("/viewme",auth,(req, res) => {
 
 
 routes.post('/getTokenDecoded',(req,res)=>{
-    // let token= req.body.token;
+    let token= req.body.token;
     // calling the function decodeToken and storing it in a variable
-    var tokenDisplay=decodeToken(token);
-    res.status(200).json({data:tokenDisplay})
-    // var decoded = jwt.verify(token, 'openHello');
-    // console.log(decoded.data)
-    // res.status(200).json({data:decoded})
+    // var tokenDisplay=decodeToken(token);
+    // res.status(200).json({data:tokenDisplay})
+    var decoded = jwt.verify(token, 'openHello');
+    console.log(decoded.data)
+    res.status(200).json({data:decoded})
 
 })
 //using the decode method in function decodeToken

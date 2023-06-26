@@ -6,7 +6,10 @@ let auth = (req,res,next)=>{
 
         let token = req.headers.authorization
         console.log(token);
-        let decoded = jwt.verify(token, 'openHello');
+        console.log("in");
+        let repToken=token.replace("Bearer ",'')
+        console.log(repToken);
+        let decoded = jwt.verify(repToken, 'openHello');
         if(decoded){
             userModel.findOne({"_id":decoded.data._id})
             .then(data=>{
